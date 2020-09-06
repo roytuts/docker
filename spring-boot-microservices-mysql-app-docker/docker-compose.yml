@@ -1,0 +1,56 @@
+version: "3"
+
+services:
+  eureka:
+    image: eureka-server
+    build:
+      context: ./spring-boot-eureka
+      dockerfile: Dockerfile
+    ports:
+      - "8761:8761"
+      
+  echo:
+    image: echo-app
+    restart: on-failure
+    build:
+      context: ./spring-boot-echo-service
+      dockerfile: Dockerfile
+    depends_on:
+      - eureka
+    ports:
+      - "9000:9000"
+    entrypoint: ["./wait.sh"]
+
+  hello:
+    image: hello-app
+    restart: on-failure
+    build:
+      context: ./spring-boot-hello-service
+      dockerfile: Dockerfile
+    depends_on:
+      - eureka
+    ports:
+      - "8000:8000"
+    entrypoint: ["./wait.sh"]
+
+  db-svc:
+    image: db-app
+    restart: on-failure
+    build:
+      context: ./spring-boot-db-service
+      dockerfile: Dockerfile
+    depends_on:
+      - eureka
+      - db
+    ports:
+      - "7000:7000"
+    entrypoint: ["./wait.sh"]
+
+  db:
+    image: mysql:8.0.21
+    ports:
+      - "33000:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d/:ro
