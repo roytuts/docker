@@ -1,1 +1,1 @@
-You can read tutorial https://www.roytuts.com/docker-compose-dockerizing-spring-boot-microservices-mysql-app/
+You can read tutorial https://roytuts.com/docker-compose-dockerizing-spring-boot-microservices-mysql-app/
