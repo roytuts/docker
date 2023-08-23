@@ -1,0 +1,16 @@
+FROM maven:3.8.7-eclipse-temurin-19 AS build
+
+COPY pom.xml /build/
+COPY src /build/src/
+
+WORKDIR /build/
+
+RUN mvn package
+
+FROM openjdk:19-jdk-alpine
+
+WORKDIR /app
+
+COPY --from=build /build/target/*.jar /app/spring-boot-app.jar
+
+ENTRYPOINT ["java", "-jar","/app/spring-boot-app.jar"]
