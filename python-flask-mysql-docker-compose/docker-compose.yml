@@ -1,4 +1,4 @@
-version: "3"  (optional)
+version: "3"  #optional
 services:
   app:
     build: ./app
