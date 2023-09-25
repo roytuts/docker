@@ -1,4 +1,4 @@
-version: "3"
+version: "3" #optional for docker version 2.x.x
 services:
   app:
     build:
